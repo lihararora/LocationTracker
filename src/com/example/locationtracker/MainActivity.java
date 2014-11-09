@@ -1,5 +1,6 @@
 package com.example.locationtracker;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -20,6 +21,7 @@ import android.widget.TextView;
 public class MainActivity extends Activity {
 
 	private BluetoothAdapter mBluetoothAdapter;
+	private ArrayList<Beacon> beacons;
     
  // Stops scanning after 10 seconds.
     private static final long REFRESH_TIME = 5000;
@@ -38,6 +40,8 @@ public class MainActivity extends Activity {
 		    Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
 		    startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
 		}
+		
+		beacons = new ArrayList<Beacon>();
 		
 		final Button button = (Button) findViewById(R.id.scan);
 		
@@ -86,11 +90,12 @@ public class MainActivity extends Activity {
         	mTimer.scheduleAtFixedRate(new TimerTask() {
 				@Override
         	    public void run() {
-					mBluetoothAdapter. stopLeScan(mLeScanCallback);
+					mBluetoothAdapter.stopLeScan(mLeScanCallback);
+					Utils.sendData(beacons);
+					beacons = new ArrayList<Beacon>();
+					mBluetoothAdapter.startLeScan(mLeScanCallback);
         	    }
         	}, 0, REFRESH_TIME);
-
-            mBluetoothAdapter.startLeScan(mLeScanCallback);
         } else {
             mBluetoothAdapter.stopLeScan(mLeScanCallback);
         }
@@ -102,12 +107,7 @@ public class MainActivity extends Activity {
 	    @Override
 	    public void onLeScan(final BluetoothDevice device, int rssi,
 	            byte[] scanRecord) {
-	    	String msg = "payload = ";
-	    	msg += device.toString() + ".....";
-	    	msg += Integer.toString(rssi) + ".....";
-	    	for (byte b : scanRecord)
-	    	  msg += String.format("%02x ", b);
-	    	System.out.println(msg);
+	    	Utils.updateBeaconList(beacons, device.getAddress(), rssi, scanRecord);
 	   }
 	};
 	

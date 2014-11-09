@@ -5,5 +5,9 @@
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
+	<classpathentry kind="lib" path="libs/android-dev-logging.jar"/>
+	<classpathentry kind="lib" path="libs/gimbal-proximity.jar"/>
+	<classpathentry kind="lib" path="libs/spring-android-core-1.0.1.RELEASE.jar"/>
+	<classpathentry kind="lib" path="libs/spring-android-rest-template-1.0.1.RELEASE.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
