@@ -12,10 +12,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
@@ -27,12 +29,19 @@ public class MainActivity extends Activity {
     private static final long REFRESH_TIME = 5000;
     private static final int REQUEST_ENABLE_BT = 1;
     
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		
-		final BluetoothManager bluetoothManager =
+    SparseArray<Group> groups = new SparseArray<Group>();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+      setContentView(R.layout.activity_main);
+      createData();
+      ExpandableListView listView = (ExpandableListView) findViewById(R.id.listView);
+      MyExpandableListAdapter adapter = new MyExpandableListAdapter(this,
+          groups);
+      listView.setAdapter(adapter);
+      
+      final BluetoothManager bluetoothManager =
 		        (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
 		mBluetoothAdapter = bluetoothManager.getAdapter();
 		
@@ -42,15 +51,25 @@ public class MainActivity extends Activity {
 		}
 		
 		beacons = new ArrayList<Beacon>();
-		
+		/*
 		final Button button = (Button) findViewById(R.id.scan);
 		
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                scanLeDevice(true);
-            }
-        });
-	}
+      button.setOnClickListener(new View.OnClickListener() {
+          public void onClick(View v) {
+              scanLeDevice(true);
+          }
+      });*/
+    }
+
+    public void createData() {
+      for (int j = 0; j < 5; j++) {
+        Group group = new Group("Test " + j);
+        for (int i = 0; i < 5; i++) {
+          group.children.add("Sub Item" + i);
+        }
+        groups.append(j, group);
+      }
+    }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
