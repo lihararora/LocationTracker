@@ -20,7 +20,6 @@ public class Utils {
 			    double accuracy =  (0.89976)*Math.pow(ratio,7.7095) + 0.111;    
 			    beacon.setDistance((float)accuracy);
 			}
-			System.out.println(beacon.getMinor() + " ------- " + beacon.getDistance());
 		}
 		
 		return success;
