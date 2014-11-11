@@ -3,11 +3,11 @@ package com.example.locationtracker;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import android.widget.TextView;
+
 public class Utils {
-	public static boolean sendData(ArrayList<Beacon> beacons)
+	public static void calculateDistance(ArrayList<Beacon> beacons)
 	{
-		boolean success = false;
-		
 		for(Beacon beacon:beacons)
 		{
 			double ratio = beacon.getRssi()*1.0/beacon.getCalibratedPower();
@@ -21,6 +21,14 @@ public class Utils {
 			    beacon.setDistance((float)accuracy);
 			}
 		}
+	}
+	
+	public static boolean sendData(ArrayList<Beacon> beacons)
+	{
+		boolean success = false;
+		
+		
+		
 		
 		return success;
 	}
@@ -38,6 +46,7 @@ public class Utils {
 	
 	public static void updateBeaconList(ArrayList<Beacon> beacons, String address, int rssi, byte[] scanRecord)
 	{
+		System.out.println("running");
 		int startByte = 2;
 	    boolean patternFound = false;
 	    while (startByte <= 5) {

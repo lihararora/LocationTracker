@@ -9,9 +9,9 @@ public class Beacon {
 	private String mac;
 	private int major;
 	private int minor;
-	private int rssi;
+	private double rssi;
 	private int count;
-	private float distance;
+	private double distance;
 	private int calibratedPower;
 	
 	public String getUuid() {
@@ -38,10 +38,10 @@ public class Beacon {
 	public void setMinor(int minor) {
 		this.minor = minor;
 	}
-	public int getRssi() {
+	public double getRssi() {
 		return rssi;
 	}
-	public void setRssi(int rssi) {
+	public void setRssi(double rssi) {
 		this.rssi = rssi;
 	}
 	public int getCount() {
@@ -56,10 +56,10 @@ public class Beacon {
 	public void setCalibratedPower(int calibratedPower) {
 		this.calibratedPower = calibratedPower;
 	}
-	public float getDistance() {
+	public double getDistance() {
 		return distance;
 	}
-	public void setDistance(float distance) {
+	public void setDistance(double distance) {
 		this.distance = distance;
 	}
 }

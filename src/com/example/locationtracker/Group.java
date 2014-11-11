@@ -5,11 +5,16 @@ import java.util.List;
 
 public class Group {
 
-  public String string;
+  public int minor;
+  public double distance;
+  public double rssi;
   public final List<String> children = new ArrayList<String>();
-
-  public Group(String string) {
-    this.string = string;
+  
+  public Group(int minor, double d, double e) 
+  {
+	super();
+	this.minor = minor;
+	this.distance = d;
+	this.rssi = e;
   }
-
 } 
