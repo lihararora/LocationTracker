@@ -13,6 +13,7 @@ public class Beacon {
 	private int count;
 	private double distance;
 	private int calibratedPower;
+	private byte[] scanRecord;
 	
 	public String getUuid() {
 		return uuid;
@@ -61,5 +62,11 @@ public class Beacon {
 	}
 	public void setDistance(double distance) {
 		this.distance = distance;
+	}
+	public byte[] getScanRecord() {
+		return scanRecord;
+	}
+	public void setScanRecord(byte[] scanRecord) {
+		this.scanRecord = scanRecord;
 	}
 }

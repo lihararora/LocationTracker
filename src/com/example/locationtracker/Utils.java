@@ -99,6 +99,7 @@ public class Utils {
 			        b.setRssi(rssi);
 			        b.setCount(1);
 			        b.setCalibratedPower(scanRecord[startByte+24]);
+			        b.setScanRecord(scanRecord);
 			        beacons.add(b);
 		        }
 	        }

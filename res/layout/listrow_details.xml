@@ -2,26 +2,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="40dp"
-    android:clickable="true"
+    android:clickable="false"
     android:orientation="vertical"
-    android:paddingLeft="40dp"
+    android:paddingLeft="10dp"
     tools:context=".MainActivity" >
-    
-   <TextView
+
+    <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_launcher"
-        android:drawablePadding="5dp"
         android:gravity="center_vertical"
+        android:padding="10dp"
         android:text="@string/hello_world"
-        android:textSize="14sp"
-        android:textStyle="bold" >
-    </TextView>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/black" />  
+        android:textSize="16sp" />
 
 </LinearLayout>

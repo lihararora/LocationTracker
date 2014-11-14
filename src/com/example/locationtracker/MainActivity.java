@@ -12,7 +12,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
+import java.util.Formatter;
 
 public class MainActivity extends Activity {
 
@@ -58,25 +58,23 @@ public class MainActivity extends Activity {
     }
 
     public void createData() {
-      for (Beacon b : beacons) {
-    	Group group = new Group(b.getMinor(), b.getDistance(), b.getRssi());
-        for (int i = 0; i < 5; i++) {
-          group.children.add("Sub Item" + i);
-        }
-        groups.add(group);
-      }
+    	for (Beacon b : beacons) 
+    	{  
+    		Formatter formatter = new Formatter();
+    		ArrayList<String> subDetails = new ArrayList<String>();
+    		subDetails.add("MAC: "+b.getMac());
+    		subDetails.add("Major: "+b.getMajor()+" Minor: "+b.getMinor());
+    		byte[] byteArray = b.getScanRecord();
+    		for (byte by : byteArray) {
+    		    formatter.format(" %02x", by);
+    		}
+    		subDetails.add("Scan Record: "+formatter.toString());
+    		
+    		Group group = new Group(b.getMinor(), b.getDistance(), b.getRssi());
+    		group.children.addAll(subDetails);
+		    groups.add(group);
+    	}
     }
-    
-    /*public void createData() {
-    	int j = 0;
-        for (Beacon b: beacons) {
-          Group group = new Group(j, 0.0, 0.0);
-          for (int i = 0; i < 5; i++) {
-            group.children.add("Sub Item" + i);
-          }
-          groups.add(j++, group);
-        }
-      }*/
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
