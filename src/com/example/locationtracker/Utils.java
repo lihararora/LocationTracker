@@ -46,7 +46,6 @@ public class Utils {
 	
 	public static void updateBeaconList(ArrayList<Beacon> beacons, String address, int rssi, byte[] scanRecord)
 	{
-		System.out.println("running");
 		int startByte = 2;
 	    boolean patternFound = false;
 	    while (startByte <= 5) {
