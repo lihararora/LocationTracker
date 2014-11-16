@@ -3,7 +3,6 @@ package com.example.locationtracker;
 import java.util.UUID;
 
 public class Beacon {
-	public static String APP_UUID = "D4B19E36-DCBC-4E55-9742-9A228E007F06";
 	
 	private String uuid;
 	private String mac;

@@ -17,4 +17,12 @@ public class Group {
 	this.distance = d;
 	this.rssi = e;
   }
+  
+  public Group() 
+  {
+	super();
+	this.minor = 0;
+	this.distance = 0;
+	this.rssi = 0;
+  }
 } 

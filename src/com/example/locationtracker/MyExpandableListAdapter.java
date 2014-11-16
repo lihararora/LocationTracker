@@ -54,7 +54,15 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
 
   @Override
   public Object getGroup(int groupPosition) {
-    return groups.get(groupPosition);
+	  try
+	  {
+		  return groups.get(groupPosition);
+	  }
+	  catch(Exception e)
+	  {
+		  e.printStackTrace();
+		  return groups.get(0);
+	  }
   }
 
   @Override

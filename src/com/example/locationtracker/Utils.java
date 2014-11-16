@@ -6,6 +6,9 @@ import java.util.Arrays;
 import android.widget.TextView;
 
 public class Utils {
+	public static String APP_UUID = "D4B19E36-DCBC-4E55-9742-9A228E007F06";
+	public static String API_URL = "http://ec2-54-68-24-206.us-west-2.compute.amazonaws.com/api/";
+	
 	public static void calculateDistance(ArrayList<Beacon> beacons)
 	{
 		for(Beacon beacon:beacons)
@@ -88,7 +91,7 @@ public class Utils {
 		        int major = (scanRecord[startByte+20] & 0xff) * 0x100 + (scanRecord[startByte+21] & 0xff);
 		        int minor = (scanRecord[startByte+22] & 0xff) * 0x100 + (scanRecord[startByte+23] & 0xff);
 		        
-		        if(uuid.equals(Beacon.APP_UUID))
+		        if(uuid.equals(APP_UUID))
 		        {
 			        b = new Beacon();
 			        b.setUuid(uuid);
