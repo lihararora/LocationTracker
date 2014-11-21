@@ -1,13 +1,70 @@
 package com.example.locationtracker;
 
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
+import org.apache.http.NameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.os.DropBoxManager.Entry;
 import android.widget.TextView;
 
 public class Utils {
 	public static String APP_UUID = "D4B19E36-DCBC-4E55-9742-9A228E007F06";
-	public static String API_URL = "http://ec2-54-68-24-206.us-west-2.compute.amazonaws.com/api/";
+	public static String API_URL = "http://location.isi.jhu.edu/api/";
+	public static final int GET_REQUEST = 1;
+	public static final int POST_REQUEST = 2;
+	
+	public static Byte findMostCommon(ArrayList<Byte> list) {
+	    Collections.sort(list);
+	    Byte mostCommon = 0;
+	    Byte last = null;
+	    int mostCount = 0;
+	    int lastCount = 0;
+	    for (Byte x : list) {
+	        if (x.equals(last)) {
+	            lastCount++;
+	        } else if (lastCount > mostCount) {
+	            mostCount = lastCount;
+	            mostCommon = last;
+	        }
+	        last = x;
+	    }
+	    return mostCommon;
+	}
+	
+	public static void calculateRSSI(ArrayList<Beacon> beacons) {
+		for(Beacon beacon:beacons)
+		{
+			//byte rssi = findMostCommon(beacon.getReceivedRSSIs());
+			ArrayList<Byte> rssis = beacon.getReceivedRSSIs();
+			if(rssis.size()>0)
+			{
+				Collections.sort(rssis);
+				beacon.setRssi(rssis.get((int)(rssis.size()/2)));
+			}
+			else
+			{
+				beacon.setRssi(rssis.get(0));
+			}
+		}
+			
+	}
 	
 	public static void calculateDistance(ArrayList<Beacon> beacons)
 	{
@@ -26,10 +83,42 @@ public class Utils {
 		}
 	}
 	
-	public static boolean sendData(ArrayList<Beacon> beacons)
+	public static boolean sendData(ArrayList<Beacon> beacons, String token)
 	{
 		boolean success = false;
 		
+		String data = null;
+		
+		JSONArray ja = new JSONArray();
+		
+		for(Beacon b: beacons)
+		{
+			try{
+				JSONObject jo = new JSONObject();
+				jo.put("major",b.getMajor());
+				jo.put("minor",b.getMinor());
+				jo.put("mac",b.getMac());
+				jo.put("rssi",b.getRssi());
+				jo.put("distance",b.getDistance());
+				ja.put(jo);
+			}
+			catch(JSONException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		data = ja.toString();
+		
+		HttpConnection con = null;
+		try {
+			con = new HttpConnection(Utils.API_URL+"post", HttpConnection.POST_REQUEST);
+			con.POST(data, token, false);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		con.close();
 		
 		
 		
@@ -75,8 +164,7 @@ public class Utils {
 	        
 	        if(beaconFound)
 	        {
-	        	int count = b.getCount();
-	        	b.setRssi(((b.getRssi()*count) + rssi)/(count+1));
+	        	b.getReceivedRSSIs().add(Byte.valueOf((byte) rssi));
 	        }
 	        else
 	        {
@@ -98,8 +186,7 @@ public class Utils {
 			        b.setMac(address);
 			        b.setMajor(major);
 			        b.setMinor(minor);
-			        b.setRssi(rssi);
-			        b.setCount(1);
+			        b.getReceivedRSSIs().add(Byte.valueOf((byte) rssi));
 			        b.setCalibratedPower(scanRecord[startByte+24]);
 			        b.setScanRecord(scanRecord);
 			        beacons.add(b);

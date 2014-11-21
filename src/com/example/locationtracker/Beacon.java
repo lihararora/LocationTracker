@@ -1,18 +1,27 @@
 package com.example.locationtracker;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
-public class Beacon {
+public class Beacon implements Comparable {
 	
 	private String uuid;
 	private String mac;
 	private int major;
 	private int minor;
-	private double rssi;
-	private int count;
+	private ArrayList<Byte> receivedRSSIs = new ArrayList<Byte>();
+	private byte rssi;
 	private double distance;
 	private int calibratedPower;
 	private byte[] scanRecord;
+	
+	 @Override
+    public int compareTo(Object newBeacon) {
+        double newDistance=((Beacon)newBeacon).getDistance();
+        /* For Ascending order*/
+        return (int)(this.distance-newDistance);
+
+    }
 	
 	public String getUuid() {
 		return uuid;
@@ -38,17 +47,8 @@ public class Beacon {
 	public void setMinor(int minor) {
 		this.minor = minor;
 	}
-	public double getRssi() {
+	public byte getRssi() {
 		return rssi;
-	}
-	public void setRssi(double rssi) {
-		this.rssi = rssi;
-	}
-	public int getCount() {
-		return count;
-	}
-	public void setCount(int count) {
-		this.count = count;
 	}
 	public int getCalibratedPower() {
 		return calibratedPower;
@@ -67,5 +67,16 @@ public class Beacon {
 	}
 	public void setScanRecord(byte[] scanRecord) {
 		this.scanRecord = scanRecord;
+	}
+	public ArrayList<Byte> getReceivedRSSIs() {
+		return receivedRSSIs;
+	}
+
+	public void setReceivedRSSIs(ArrayList<Byte> receivedRSSIs) {
+		this.receivedRSSIs = receivedRSSIs;
+	}
+
+	public void setRssi(byte rssi) {
+		this.rssi = rssi;
 	}
 }

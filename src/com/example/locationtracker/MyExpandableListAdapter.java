@@ -42,7 +42,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     if (convertView == null) {
       convertView = inflater.inflate(R.layout.listrow_details, null);
     }
-    text = (TextView) convertView.findViewById(R.id.textView1);
+    text = (TextView) convertView.findViewById(R.id.CalibrateDescription);
     text.setText(children);
     return convertView;
   }
@@ -61,7 +61,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
 	  catch(Exception e)
 	  {
 		  e.printStackTrace();
-		  return groups.get(0);
+		  return new Group();
 	  }
   }
 
@@ -98,11 +98,11 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         tv2.setText(Integer.toString(group.minor));
         
         TextView tv3 = (TextView) convertView
-                .findViewById(R.id.textView3);
+                .findViewById(R.id.RSSI1);
         tv3.setText(Double.toString(Math.round(group.distance*10000)/10000.0d));
         
         TextView tv5 = (TextView) convertView
-                .findViewById(R.id.textView5);
+                .findViewById(R.id.RSSI2);
         tv5.setText(Integer.toString((int)Math.round(group.rssi)));
 	    return convertView;
 	  }
