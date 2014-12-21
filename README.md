@@ -1,3 +1,3 @@
 LocationTracker
 ===============
-An app for scanning data from Beacons and then sending it to web application.
+An android app for scanning data from Beacons (Bluetooth Low Energy devices) and then sending it to a web application.
